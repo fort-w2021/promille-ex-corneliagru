@@ -1,0 +1,65 @@
+## Stößchen!
+
+
+Die Seite [`promille-rechner.org`](https://web.archive.org/web/20150123143123/http://promille-rechner.org/erlaeuterung-der-promille-berechnung/)\footnote{Obacht, Link geht zum Internet-Archiv "Wayback Machine", das kann bisschen dauern...} bietet eine schöne Erklärung wie man nach dem sog. *Watson-Algorithmus* Blutalkoholkonzentrationen grob abschätzen kann. Benutzen Sie die dort beschriebene Methode (genauer: die Formel "Kombination Widmark und Whatson") um eine Funktion
+```{r}
+tell_me_how_drunk <- function(age, sex = c("male", "female"), height, weight, drinking_time, drinks) {
+  if(!is.list(drinks))
+    drinks <- as.list(drinks)
+  
+  all_drinks <- c("hoibe", "massn", "schnaps", "wein")
+  
+  # extend drinks with all possible drinks
+  for (d in all_drinks) {
+    if (is.null(drinks[[d]])) {
+      drinks[[d]] <- 0
+    }
+  }
+  
+  
+  # A Alcohol intake
+  A <- 0.8 * (drinks[["massn"]] * 1000 * 0.06 + drinks[["hoibe"]] * 500 * 0.06 +
+                drinks[["schnaps"]] * 40 * 0.4 + drinks[["wein"]] * 200 * 0.11)
+  
+  
+  
+  GKW <- switch (sex,
+                 "male" = 2.447 - 0.09516 * age + 0.1074 * height + 0.3362 * weight,
+                 "female" = 0.203 - 0.07 * age + 0.1069 * height + 0.2466 * weight
+  )
+  
+  
+  
+  c <- (0.64 * A) / (1.055 * GKW)
+  return(c)
+}
+```
+zu schreiben, die für gegebene Eigenschaften einer Person, den von ihr konsumierten Getränken (Art & Anzahl) `drinks`  und der Zeitspanne (Anfang/Ende) `drinking_time` in der getrunken wurde die Blutalkoholkonzentration (in Promille) zum Ende der `drinking_time` berechnet.
+
+Spezifikation:
+
+- Ihre Funktion muß die Getränkearten "massn", "hoibe", "wein" und "schnaps" kennen. Für Bier nehmen Sie bitte oktoberfestmäßige 6% an, für Wein 11% und 0.2l pro Portion und für Schnaps 40% und 4cl pro Portion. 
+- `drinks` kann als Liste (zB `list("massn" = 2, "schnaps" = 3)`) oder als Vektor übergeben werden (zB `c("wein" = 4, "hoibe" = 1)`). Ihre Funktion sollte beides akzeptieren.
+- `height` wird in cm angeben, `weight` in kg.
+- `drinking_time` bekommt einen Vektor von `POSIXct`-Zeitvariablen.
+
+Lösen Sie die Aufgabe im Top-Down-Stil den Sie in der Vorlesung kennengelernt haben.  
+
+Überprüfen Sie Ihre Funktion (mindestens) mit den Tests in `topdown-promille-tests.R`.
+
+Die Aufrufe in `topdown-promille-errors.R`  sollten jeweils einigermassen aussagekräftige Fehlermeldungen produzieren. Ihre Funktionen sollten also gutes *input checking* machen, benutzen Sie dafür bitte die `assert_<BLA>()`-Funktionen aus dem Paket `checkmate`.
+
+
+```{r}
+
+
+tell_me_how_drunk(
+      age = 39,
+      sex = "male",
+      height = 190,
+      weight = 87,
+      drinking_time = as.POSIXct(c("2016-10-03 17:15:00", "2016-10-03 22:55:00")),
+      drinks = c("massn" = 3, "schnaps" = 4)
+    )
+```
+
