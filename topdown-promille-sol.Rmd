@@ -1,40 +1,10 @@
 ## Stößchen!
 
+Mit Hilfe der folgenden Funktionen soll für die gegebene Eigenschaften einer Person, den von ihr konsumierten Getränken (Art & Anzahl) `drinks`  und der Zeitspanne (Anfang/Ende) `drinking_time` in der getrunken wurde die Blutalkoholkonzentration (in Promille) zum Ende der `drinking_time` berechnet.
+Dafür werden Unterfunktionen verwendet.
 
-Die Seite [`promille-rechner.org`](https://web.archive.org/web/20150123143123/http://promille-rechner.org/erlaeuterung-der-promille-berechnung/)\footnote{Obacht, Link geht zum Internet-Archiv "Wayback Machine", das kann bisschen dauern...} bietet eine schöne Erklärung wie man nach dem sog. *Watson-Algorithmus* Blutalkoholkonzentrationen grob abschätzen kann. Benutzen Sie die dort beschriebene Methode (genauer: die Formel "Kombination Widmark und Whatson") um eine Funktion
-```{r}
-tell_me_how_drunk <- function(age, sex = c("male", "female"), height, weight, drinking_time, drinks) {
-  if(!is.list(drinks))
-    drinks <- as.list(drinks)
-  
-  all_drinks <- c("hoibe", "massn", "schnaps", "wein")
-  
-  # extend drinks with all possible drinks
-  for (d in all_drinks) {
-    if (is.null(drinks[[d]])) {
-      drinks[[d]] <- 0
-    }
-  }
-  
-  
-  # A Alcohol intake
-  A <- 0.8 * (drinks[["massn"]] * 1000 * 0.06 + drinks[["hoibe"]] * 500 * 0.06 +
-                drinks[["schnaps"]] * 40 * 0.4 + drinks[["wein"]] * 200 * 0.11)
-  
-  
-  
-  GKW <- switch (sex,
-                 "male" = 2.447 - 0.09516 * age + 0.1074 * height + 0.3362 * weight,
-                 "female" = 0.203 - 0.07 * age + 0.1069 * height + 0.2466 * weight
-  )
-  
-  
-  
-  c <- (0.64 * A) / (1.055 * GKW)
-  return(c)
-}
-```
-zu schreiben, die für gegebene Eigenschaften einer Person, den von ihr konsumierten Getränken (Art & Anzahl) `drinks`  und der Zeitspanne (Anfang/Ende) `drinking_time` in der getrunken wurde die Blutalkoholkonzentration (in Promille) zum Ende der `drinking_time` berechnet.
+
+
 
 Spezifikation:
 
