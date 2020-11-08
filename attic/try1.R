@@ -23,7 +23,7 @@ tell_me_how_drunk <- function(age, sex = c("male", "female"),
   assert_numeric(height, lower = 0, upper = 300)
   assert_numeric(weight, lower = 0, upper = 800)
   assert_posixct(drinking_time, len = 2, sorted = TRUE)
-  # assert(assert_list(drinks), assert_numeric(drinks), combine = "or")
+  assert(check_list(drinks), check_numeric(drinks), combine = "or")
   assert_numeric(drinks, lower = 0)
   # drinks non negativ
   # drinks only the ones that are allowed and they are named

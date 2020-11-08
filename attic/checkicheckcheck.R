@@ -1,4 +1,3 @@
-remotes::install_github("fabian-s/checklist")
+#remotes::install_github("fabian-s/checklist")
 library(checklist)
-
 checklist()

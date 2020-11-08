@@ -49,9 +49,10 @@ tell_me_how_drunk(
   drinks = c("schnaps" = 3)
 )
 
+#improved so only one error at a time
 tell_me_how_drunk(
-  age = 17,
-  sex = "unicorn",
+  age = 18,
+  sex = "f",
   height = 19,
   weight = c(60, 70),
   drinking_time = as.POSIXct(c("2016-10-03 18:15:00", "2016-10-03 22:55:00")),
@@ -59,9 +60,9 @@ tell_me_how_drunk(
 )
 
 tell_me_how_drunk(
-  age = 17,
-  sex = "unicorn",
-  height = -19,
+  age = 18,
+  sex = "f",
+  height = 19,
   weight = "fat",
   drinking_time = as.POSIXct(c("2016-10-03 18:15:00", "2016-10-03 22:55:00")),
   drinks = c("schnaps" = 3)
@@ -122,3 +123,16 @@ tell_me_how_drunk(
   drinking_time = as.POSIXct(c("2016-10-03 14:00:00", "2016-10-03 21:00:00")),
   drinks = list("wein" = NULL)
 )
+
+
+#own errors: 
+
+tell_me_how_drunk(
+  age = c(24, 50),
+  sex = "f",
+  height = 160,
+  weight = 54,
+  drinking_time = as.POSIXct(c("2016-10-03 14:00:00", "2016-10-03 21:00:00")),
+  drinks = list("wein" = 2)
+)
+
