@@ -134,7 +134,7 @@ tell_me_how_drunk <- function(age, sex = c("male", "female"),
 
 
 
-Beispiel Rechnung nach einem wunderbaren (imaginären) Wiesntag:
+Beispiel Rechnung nach einem wunderbaren (leider imaginären :( ) Wiesntag:
 ```{r}
 tell_me_how_drunk(
       age = 39,
